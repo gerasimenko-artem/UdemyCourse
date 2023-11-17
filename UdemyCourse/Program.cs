@@ -1,8 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using Udemy.DataAccess.Data;
+using Udemy.DataAccess.Repository;
+using Udemy.DataAccess.Repository.IRepository;
+using Microsoft.AspNetCore.Identity;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ApplicationDbContext>(options=>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddRazorPages(); // в программе есть только поддержка MVC поскольку в проэкт добавились Razor Pages необходимо добавить данную конфигурацию
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -17,11 +27,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
-app.UseAuthorization();
-
+app.UseAuthentication(); // Необходимо добавить UseAuthentication() перед UseAuthorization(), изначально происходит проверка действительности имени пользователя или пароля
+app.UseAuthorization();// Если имя пользователя и пароль действительны, авторизация происходит
+app.MapRazorPages(); // добавление маршрутизации которая нужна для маппирования Razor Pages
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
