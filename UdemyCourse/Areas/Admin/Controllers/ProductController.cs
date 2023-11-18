@@ -1,14 +1,18 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Udemy.DataAccess.Repository;
 using Udemy.DataAccess.Repository.IRepository;
 using Udemy.Models;
 using Udemy.Models.ViewModels;
+using Udemy.Utility;
 
 namespace UdemyCourse.Areas.Admin.Controllers
 {
 	[Area("Admin")]
+	[Authorize(Roles = SD.Role_User_Admin)]
+
 	public class ProductController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;

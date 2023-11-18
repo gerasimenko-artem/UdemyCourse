@@ -3,10 +3,13 @@ using Udemy.Models;
 using Udemy.DataAccess.Data;
 using Udemy.DataAccess.Repository.IRepository;
 using Udemy.DataAccess.Repository;
+using Microsoft.AspNetCore.Authorization;
+using Udemy.Utility;
 
 namespace UdemyCourse.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_User_Admin)]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

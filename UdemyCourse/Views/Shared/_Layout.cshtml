@@ -30,7 +30,8 @@
 						<li class="nav-item">
 							<a class="nav-link text-light" asp-area="Customer" asp-controller="Home" asp-action="Privacy">Privacy</a>
 						</li>
-
+						@if (User.IsInRole(SD.Role_User_Admin))
+						{
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 								Content Managment
@@ -45,7 +46,7 @@
 								
 							</ul>
 						</li>
-
+						}
 					</ul>
 					@*Добавление в nav-bar кнопок Login и Registration*@
 					<partial name="_LoginPartial"></partial>
