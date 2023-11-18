@@ -6,20 +6,22 @@ using System.Threading.Tasks;
 using Udemy.DataAccess.Data;
 using Udemy.DataAccess.Repository.IRepository;
 using Udemy.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Udemy.DataAccess.Repository
 {
-	public class CompanyRepository : Repository<Company>, ICompanyRepository
+	public class ShoppingCartRepository : Repository<ShoppingCart>, IShoppingCartRepository
 	{
 		private readonly ApplicationDbContext _db;
-		public CompanyRepository(ApplicationDbContext db) : base(db)
+		public ShoppingCartRepository(ApplicationDbContext db) : base(db)
 		{
 			_db = db;
 		}
 
-		public void Update(Company company)
+		public void Update(ShoppingCart shoppingCart)
 		{
-			_db.Companies.Update(company);
+			_db.ShoppingCarts.Update(shoppingCart);
+
 		}
 	}
 }
