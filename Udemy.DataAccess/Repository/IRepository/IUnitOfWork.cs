@@ -11,8 +11,8 @@ namespace Udemy.DataAccess.Repository.IRepository
 		IProductRepository Product { get; }
 		ICategoryRepository Category{ get; }
 		ICompanyRepository Company { get; }
-		IShoppingCartRepository ShoppingCart { get; }
 		IApplicationUserRepository ApplicationUser { get; }
+		IShoppingCartRepository ShoppingCart { get; }
 		void Save();
 	}
 }

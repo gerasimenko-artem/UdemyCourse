@@ -460,7 +460,7 @@ namespace Udemy.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Udemy.Models.ShoppingCart", b =>
+            modelBuilder.Entity("Udemy.Models.ViewModels.ShoppingCart", b =>
                 {
                     b.Property<int>("ShoppingCartId")
                         .ValueGeneratedOnAdd()
@@ -476,9 +476,6 @@ namespace Udemy.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductIdent")
                         .HasColumnType("int");
 
                     b.HasKey("ShoppingCartId");
@@ -581,7 +578,7 @@ namespace Udemy.DataAccess.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Udemy.Models.ShoppingCart", b =>
+            modelBuilder.Entity("Udemy.Models.ViewModels.ShoppingCart", b =>
                 {
                     b.HasOne("Udemy.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()

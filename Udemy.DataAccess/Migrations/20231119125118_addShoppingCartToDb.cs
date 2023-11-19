@@ -5,7 +5,7 @@
 namespace Udemy.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class addShoppingCartToDB : Migration
+    public partial class addShoppingCartToDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,7 +16,6 @@ namespace Udemy.DataAccess.Migrations
                 {
                     ShoppingCartId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductIdent = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     Count = table.Column<int>(type: "int", nullable: false),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)

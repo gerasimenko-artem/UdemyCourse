@@ -9,20 +9,19 @@ using System.Threading.Tasks;
 
 namespace Udemy.Models
 {
-	public class ShoppingCart
-	{
-		public int ShoppingCartId { get; set; }
-		public int ProductIdent { get; set; }
-		[ValidateNever]
-		public Product Product{ get; set; }
-		[Range(1, 1000, ErrorMessage = "Please enter a value between 1 and 1000")]
+    public class ShoppingCart
+    {
+        public int ShoppingCartId { get; set; }
+        public int ProductId { get; set; }
+        [ForeignKey("ProductId")]
+        [ValidateNever]
+        public Product Product { get; set; }
+        [Range(1, 100, ErrorMessage = "Please enter a value between 1 and 1000")]
+        public int Count { get; set; }
 
-		public int Count { get; set; }
-		public string ApplicationUserId { get; set; }
-		[ForeignKey("ApplicationUserId")]
-		[ValidateNever]
-		public ApplicationUser ApplicationUser { get; set; }	
-
-
-	}
+        public string ApplicationUserId { get; set; }
+        [ForeignKey("ApplicationUserId")]
+        [ValidateNever]
+        public ApplicationUser ApplicationUser { get; set; }
+    }
 }
