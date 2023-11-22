@@ -6,7 +6,7 @@ using Udemy.DataAccess.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Udemy.Utility;
 
-namespace UdemyCourse.Areas.Admin.Controllers
+namespace BookStore.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = SD.Role_User_Admin)]

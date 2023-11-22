@@ -9,7 +9,9 @@ namespace Udemy.DataAccess.Repository.IRepository
 	public interface IUnitOfWork
 	{
 		IProductRepository Product { get; }
-		ICategoryRepository Category{ get; }
+		IOrderHeaderRepository OrderHeader { get; }
+		IOrderDetailRepository OrderDetail { get; }
+		ICategoryRepository Category { get; }
 		ICompanyRepository Company { get; }
 		IApplicationUserRepository ApplicationUser { get; }
 		IShoppingCartRepository ShoppingCart { get; }
