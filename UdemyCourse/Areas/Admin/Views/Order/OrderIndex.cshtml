@@ -1,0 +1,41 @@
+﻿
+
+<div class="card shadow border-0 mt-4">
+	<div class="card-header bg-secondary bg-gradient m-lg-0 py-3">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h2 class="text-white py-2">Order List</h2>
+			</div>
+		</div>
+	</div>
+	<div class="card-body p-4">
+		<div class="row pb-4">
+			<div class="col-6 col-lg-3 text-center mb-3">
+				<a asp-controller="Home" asp-area="Customer" asp-action="Index" class=" btn btn-outline-primary border-1 form-control border-secondary">
+					<small>Back to home</small>
+				</a>
+			</div>
+
+		</div>
+		<div class="table-responsive">
+			<table id="tblData" class="table table-bordered table-striped text-center">
+				<thead class="border">
+					<tr>
+						<th class="text-center hidden-xs">ID</th>
+						<td class="text-center hidden-xs">Name</td>
+						<td class="text-center hidden-xs">Phone Number</td>
+						<td class="text-center hidden-xs">Email</td>
+						<td class="text-center hidden-xs">Status</td>
+						<td class="text-center hidden-xs">Total</td>
+						<td class="text-center hidden-xs"></td>
+					</tr>
+				</thead>
+			</table>
+		</div>
+
+	</div>
+</div>
+
+@section Scripts{
+	<script src="/js/order.js"></script>
+}
