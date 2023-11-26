@@ -6,6 +6,7 @@ using System.Security.Claims;
 using Udemy.DataAccess.Repository.IRepository;
 using Udemy.Models;
 using Udemy.Models.ViewModels;
+using Udemy.Utility;
 
 namespace UdemyCourse.Areas.Customer.Controllers
 {
@@ -24,6 +25,14 @@ namespace UdemyCourse.Areas.Customer.Controllers
 
 		public IActionResult Index()
 		{
+			var claimsIdentity = (ClaimsIdentity)User.Identity;
+			var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+			if (claim != null)
+			{
+				HttpContext.Session.SetInt32(SD.SessionCart, 
+					_unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value).Count());
+			}
+
 			IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category");
 			return View(productList);
 		}
@@ -51,13 +60,18 @@ namespace UdemyCourse.Areas.Customer.Controllers
 			{
 				cartFromDb.Count += shoppingCart.Count;
 				_unitOfWork.ShoppingCart.Update(cartFromDb);
+				_unitOfWork.Save();
 
 			}
 			else
 			{
 				_unitOfWork.ShoppingCart.Add(shoppingCart);
+				_unitOfWork.Save();
+				HttpContext.Session.SetInt32(SD.SessionCart,
+				_unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Count());
+
 			}
-			_unitOfWork.Save();
+
 			return RedirectToAction(nameof(Index));
 		}
 

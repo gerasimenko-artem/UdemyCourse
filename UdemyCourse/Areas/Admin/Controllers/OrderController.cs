@@ -187,14 +187,6 @@ namespace UdemyCourse.Areas.Admin.Controllers
 		}
 
 
-
-
-
-
-
-
-
-
 		#region API CALLS
 
 

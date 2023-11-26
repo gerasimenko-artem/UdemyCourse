@@ -199,9 +199,10 @@ namespace UdemyCourse.Areas.Customer.Controllers
 
 		public IActionResult MinusProductInCartShopping(int cartId)
 		{
-			var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.ShoppingCartId == cartId);
+			var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.ShoppingCartId == cartId, tracked: true);
 			if (cartFromDb.Count <= 1)
 			{
+				HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);
 				_unitOfWork.ShoppingCart.Remove(cartFromDb);
 			}
 			else
@@ -216,7 +217,8 @@ namespace UdemyCourse.Areas.Customer.Controllers
 
 		public IActionResult DeleteProductInCartShopping(int cartId)
 		{
-			var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.ShoppingCartId == cartId);
+			var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.ShoppingCartId == cartId, tracked: true);
+			HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);
 			_unitOfWork.ShoppingCart.Remove(cartFromDb);
 			_unitOfWork.Save();
 			return RedirectToAction(nameof(CartIndex));

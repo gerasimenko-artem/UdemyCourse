@@ -24,6 +24,25 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LogoutPath = $"/Identity/Account/Logout";
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });
+builder.Services.AddAuthentication().AddFacebook(options =>
+{
+	options.AppId = "1091743118413076";
+	options.AppSecret = "1f0ab196162c3a9ee934363939f654b1";
+});
+
+builder.Services.AddAuthentication().AddGoogle(options =>
+{
+    options.ClientId = "239948002941-g0a7pvg7f72c464o73t4895qgslv2pnj.apps.googleusercontent.com";
+    options.ClientSecret = "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";
+});
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+	options.IdleTimeout = TimeSpan.FromMinutes(30);
+	options.Cookie.HttpOnly = true;
+	options.Cookie.IsEssential = true;
+});
 
 builder.Services.AddRazorPages(); // в программе есть только поддержка MVC поскольку в проэкт добавились Razor Pages необходимо добавить данную конфигурацию
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -43,6 +62,7 @@ app.UseStaticFiles();
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 app.UseRouting();
 app.UseAuthentication(); // Необходимо добавить UseAuthentication() перед UseAuthorization(), изначально происходит проверка действительности имени пользователя или пароля
+app.UseSession();
 app.UseAuthorization();// Если имя пользователя и пароль действительны, авторизация происходит
 app.MapRazorPages(); // добавление маршрутизации которая нужна для маппирования Razor Pages
 app.MapControllerRoute(

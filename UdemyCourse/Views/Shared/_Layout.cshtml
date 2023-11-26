@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
@@ -49,12 +51,15 @@
 								</ul>
 							</li>
 						}
+						
+						
+							<li class="nav-item">
+								<a class="nav-link text-light" asp-area="Customer" asp-controller="Cart" asp-action="CartIndex">
+								@await Component.InvokeAsync("ShoppingCart")
+								</a>
+							</li>
+						
 
-						<li class="nav-item">
-							<a class="nav-link text-light" asp-area="Customer" asp-controller="Cart" asp-action="CartIndex">
-								<i class="bi bi-cart4"></i> &nbsp;
-							</a>
-						</li>
 					</ul>
 					@*Добавление в nav-bar кнопок Login и Registration*@
 					<partial name="_LoginPartial"></partial>
@@ -70,9 +75,9 @@
 	</div>
 
 	@* <footer class="text-center footer text-muted">
-		<div class="container text-center ">
-			<a>&copy; develop by Artem Herasimenko </a>
-		</div>
+	<div class="container text-center ">
+	<a>&copy; develop by Artem Herasimenko </a>
+	</div>
 	</footer> *@
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
