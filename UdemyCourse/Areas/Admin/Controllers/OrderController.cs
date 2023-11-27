@@ -10,6 +10,7 @@ using Udemy.DataAccess.Repository.IRepository;
 using Udemy.Models;
 using Udemy.Models.ViewModels;
 using Udemy.Utility;
+using MailKit.Search;
 
 namespace UdemyCourse.Areas.Admin.Controllers
 {
@@ -33,6 +34,7 @@ namespace UdemyCourse.Areas.Admin.Controllers
 
 		public IActionResult Details(int orderId)
 		{
+
 			orderViewModel = new()
 			{
 				OrderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == orderId, includeProperties: "ApplicationUser"),
@@ -52,6 +54,7 @@ namespace UdemyCourse.Areas.Admin.Controllers
 			orderHeaderFromDb.City = orderViewModel.OrderHeader.City;
 			orderHeaderFromDb.State = orderViewModel.OrderHeader.State;
 			orderHeaderFromDb.PostalCode = orderViewModel.OrderHeader.PostalCode;
+
 			if (!string.IsNullOrEmpty(orderViewModel.OrderHeader.Carrier))
 			{
 				orderHeaderFromDb.Carrier = orderViewModel.OrderHeader.Carrier;
@@ -125,14 +128,14 @@ namespace UdemyCourse.Areas.Admin.Controllers
 			return RedirectToAction(nameof(Details), new { orderId = orderViewModel.OrderHeader.Id });
 
 		}
+
 		[ActionName("Details")]
 		[HttpPost]
 		public IActionResult Details_PAY_NOW()
 		{
-			orderViewModel.OrderHeader = _unitOfWork.OrderHeader
-				.Get(u => u.Id == orderViewModel.OrderHeader.Id, includeProperties: "ApplicationUser");
-			orderViewModel.OrderDetail = _unitOfWork.OrderDetail
-				.GetAll(u => u.Id == orderViewModel.OrderHeader.Id, includeProperties: "Product");
+			orderViewModel.OrderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == orderViewModel.OrderHeader.Id, includeProperties: "ApplicationUser");
+			orderViewModel.OrderDetail = _unitOfWork.OrderDetail.GetAll(u => u.OrderHeaderId == orderViewModel.OrderHeader.Id, includeProperties: "Product");
+
 			var domain = "https://localhost:7229/";
 			var options = new SessionCreateOptions
 			{
@@ -148,7 +151,7 @@ namespace UdemyCourse.Areas.Admin.Controllers
 				{
 					PriceData = new SessionLineItemPriceDataOptions
 					{
-						UnitAmount = (long)(item.Price * 100),// 20.50 = 2050
+						UnitAmount = (long)(item.Price),// 20.50 = 2050
 						Currency = "usd",
 						ProductData = new SessionLineItemPriceDataProductDataOptions
 						{

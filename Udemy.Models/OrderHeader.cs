@@ -17,7 +17,9 @@ namespace Udemy.Models
 		[ForeignKey("ApplicationUserId")]
 		[ValidateNever]
 		public ApplicationUser ApplicationUser { get; set; }
+		[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
 		public DateTime OrderDate { get; set; }
+		[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
 		public DateTime ShippingDate { get; set; }
 		public double OrderTotal { get; set; }
 
@@ -25,8 +27,9 @@ namespace Udemy.Models
 		public string? PaymentStatus { get; set; }
 		public string? TrackingNumber { get; set; }
 		public string? Carrier { get; set; }
-
+		[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
 		public DateTime PaymentDate { get; set; }
+		[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
 		public DateTime PaymentDueDate { get; set; }
 
 		public string? SessionId { get; set; }

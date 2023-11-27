@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Udemy.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Stripe;
+using Udemy.DataAccess.DbInitializer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,7 @@ builder.Services.AddSession(options =>
 	options.Cookie.IsEssential = true;
 });
 
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddRazorPages(); // в программе есть только поддержка MVC поскольку в проэкт добавились Razor Pages необходимо добавить данную конфигурацию
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
@@ -63,6 +65,7 @@ StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey"
 app.UseRouting();
 app.UseAuthentication(); // Необходимо добавить UseAuthentication() перед UseAuthorization(), изначально происходит проверка действительности имени пользователя или пароля
 app.UseSession();
+SeedDatabase();
 app.UseAuthorization();// Если имя пользователя и пароль действительны, авторизация происходит
 app.MapRazorPages(); // добавление маршрутизации которая нужна для маппирования Razor Pages
 app.MapControllerRoute(
@@ -70,3 +73,12 @@ app.MapControllerRoute(
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+		var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+		dbInitializer.Initialize();
+	}
+}

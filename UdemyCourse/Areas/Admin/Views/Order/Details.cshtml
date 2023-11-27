@@ -119,7 +119,7 @@
 							<div class="row my-1">
 								<div class="col-3">Order Date</div>
 								<div class="col-9">
-									<input asp-for="@Model.OrderDateString" readonly type="text" class="form-control" />
+									<input asp-for="@Model.OrderHeader.OrderDate" readonly type=" text" class="form-control" />
 
 								</div>
 							</div>
@@ -152,7 +152,7 @@
 							<div class="row my-1">
 								<div class="col-3">Shipping Date</div>
 								<div class="col-9">
-									<input asp-for="@Model.OrderShippingDateString" readonly type="text" class="form-control" />
+									<input asp-for="@Model.OrderHeader.ShippingDate" readonly type="text" class="form-control" />
 								</div>
 							</div>
 							@if (User.IsInRole(SD.Role_User_Admin) || User.IsInRole(SD.Role_User_Empoloyee))
@@ -175,14 +175,14 @@
 								{
 									<div class="col-3">Payment Due Date</div>
 									<div class="col-9">
-										<input value="@Model.PaymentDueDateString" readonly type="text" class="form-control" />
+										<input value="@Model.OrderHeader.PaymentDueDate" readonly type="text" class="form-control" />
 									</div>
 								}
 								else
 								{
 									<div class="col-3">Payment Date</div>
 									<div class="col-9">
-										<input asp-for="@Model.PaymentDateString" readonly type="text" class="form-control" />
+										<input asp-for="@Model.OrderHeader.PaymentDate" readonly type=" text" class="form-control" />
 									</div>
 								}
 							</div>
