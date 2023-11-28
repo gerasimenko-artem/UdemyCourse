@@ -129,11 +129,13 @@ namespace UdemyCourse.Areas.Admin.Controllers
 
 		}
 
+		
 		[ActionName("Details")]
 		[HttpPost]
-		public IActionResult Details_PAY_NOW()
+		public IActionResult Details_Pay_Now()
 		{
-			orderViewModel.OrderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == orderViewModel.OrderHeader.Id, includeProperties: "ApplicationUser");
+			orderViewModel.OrderHeader = _unitOfWork.OrderHeader.
+				Get(u => u.Id == orderViewModel.OrderHeader.Id, includeProperties: "ApplicationUser");
 			orderViewModel.OrderDetail = _unitOfWork.OrderDetail.GetAll(u => u.OrderHeaderId == orderViewModel.OrderHeader.Id, includeProperties: "Product");
 
 			var domain = "https://localhost:7229/";
@@ -151,7 +153,7 @@ namespace UdemyCourse.Areas.Admin.Controllers
 				{
 					PriceData = new SessionLineItemPriceDataOptions
 					{
-						UnitAmount = (long)(item.Price),// 20.50 = 2050
+						UnitAmount = (long)(item.Price * 100),// 20.50 = 2050
 						Currency = "usd",
 						ProductData = new SessionLineItemPriceDataProductDataOptions
 						{
@@ -171,9 +173,10 @@ namespace UdemyCourse.Areas.Admin.Controllers
 			Response.Headers.Add("Location", session.Url);
 			return new StatusCodeResult(303);
 		}
+
 		public IActionResult PaymentConfirmation(int orderHeaderId)
 		{
-			OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == orderHeaderId);
+			OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == orderHeaderId, includeProperties: "ApplicationUser");
 			if (orderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment)
 			{
 				var service = new SessionService();
@@ -181,9 +184,10 @@ namespace UdemyCourse.Areas.Admin.Controllers
 				if (session.PaymentStatus.ToLower() == "paid")
 				{
 					_unitOfWork.OrderHeader.UpdateStipePaymentID(orderHeaderId, session.Id, session.PaymentIntentId);
-					_unitOfWork.OrderHeader.UpdateStatus(orderHeaderId, orderHeader.OrderStatus, SD.PaymentStatusApproved);
+					_unitOfWork.OrderHeader.UpdateStatus(orderHeaderId, SD.StatusApproved, SD.PaymentStatusApproved);
 					_unitOfWork.Save();
 				}
+				HttpContext.Session.Clear();
 			}
 
 			return View(orderHeaderId);

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Stripe.Checkout;
@@ -18,10 +19,15 @@ namespace UdemyCourse.Areas.Customer.Controllers
 		[BindProperty]
 		public ShoppingCartViewModel ShoppingCartViewModel { get; set; }
 		private readonly IUnitOfWork _unitOfWork;
+		private readonly IEmailSender _emailSender;
 
-		public CartController(ILogger<CartController> logger, IUnitOfWork unitOfWork)
+
+		public CartController(IUnitOfWork unitOfWork, IEmailSender emailSender)
 		{
 			_unitOfWork = unitOfWork;
+			_emailSender = emailSender;
+
+
 		}
 		[HttpPost]
 		[ActionName("Summary")]
@@ -29,7 +35,8 @@ namespace UdemyCourse.Areas.Customer.Controllers
 		{
 			var claimsIdentity = (ClaimsIdentity)User.Identity;
 			var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-			ShoppingCartViewModel.ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId, includeProperties: "Product");
+			ShoppingCartViewModel.ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId, 
+				includeProperties: "Product");
 			
 			
 			ShoppingCartViewModel.OrderHeader.ApplicationUserId = userId;
@@ -69,6 +76,8 @@ namespace UdemyCourse.Areas.Customer.Controllers
 					Count = cart.Count
 				};
 				_unitOfWork.OrderDetail.Add(orderDetail);
+				_unitOfWork.Save();
+				HttpContext.Session.Clear();
 
 			}
 
@@ -130,6 +139,8 @@ namespace UdemyCourse.Areas.Customer.Controllers
 				HttpContext.Session.Clear();
 			}
 
+			_emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email,
+				"Order Created " + orderHeader.Id.ToString(), "Order has been submitted successfully.");
 
 			List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart.GetAll(u=> u.ApplicationUserId == orderHeader.ApplicationUserId).ToList();
 			_unitOfWork.ShoppingCart.RemoveRange(shoppingCarts);
