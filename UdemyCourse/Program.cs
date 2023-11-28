@@ -33,8 +33,8 @@ builder.Services.AddAuthentication().AddFacebook(options =>
 
 builder.Services.AddAuthentication().AddGoogle(options =>
 {
-    options.ClientId = "239948002941-g0a7pvg7f72c464o73t4895qgslv2pnj.apps.googleusercontent.com";
-    options.ClientSecret = "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";
+    options.ClientId = "239948002941-kjtshgb5jl4vaptllo58sem3bpfppf9l.apps.googleusercontent.com";
+    options.ClientSecret = "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";
 });
 
 builder.Services.AddDistributedMemoryCache();
