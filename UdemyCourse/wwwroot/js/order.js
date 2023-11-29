@@ -27,7 +27,6 @@ function loadDataTable(status) {
             { "data": "applicationUser.email", "width": "20%" },
             { "data": "orderStatus", "width": "15%" },
             { "data": "orderTotal", "width": "15%" },
-
             {
                 data: 'id',
                 "render": function (data) {

@@ -53,6 +53,9 @@
 									<li class="nav-item">
 										<a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Create User</a>
 									</li>
+									<li class="nav-item">
+										<a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="UserIndex">Manage User</a>
+									</li>
 								</ul>
 							</li>
 						}
@@ -86,10 +89,14 @@
 	</footer> *@
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js" asp-append-version="true"></script>
 	<script src="https://cdn.tiny.cloud/1/lu8wgwg1k6xrkj8ccj2sruuwyubb7jr3n8h9syn32imzdg9m/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
+
 	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
