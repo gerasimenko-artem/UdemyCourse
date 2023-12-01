@@ -1,0 +1,75 @@
+﻿@model UserViewModel
+
+<div class="card shadow border-0 mt-4">
+	<div class="card-header bg-secondary bg-gradient m-lg-0 py-3">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h2 class="text-white py-2">Edit User</h2>
+			</div>
+		</div>
+	</div>
+	<div class="card-body p-4">
+		<form method="post">
+			<input asp-for="ApplicationUser.Id" hidden>
+			<div class="border p-3 mt-4">
+				<div class="form-floating py-2 col-12">
+					<input asp-for= "ApplicationUser.Name"  class="form-control border-0 shadow">
+					<label asp-for="ApplicationUser.Name" class="ms-2 "></label>
+					<span asp-validation-for="ApplicationUser.Name" class=" p-2 text-danger"></span>
+				</div>
+
+				<div class="form-floating py-2 col-12">
+					<select asp-for="ApplicationUser.Role" asp-items="@Model.RoleList" class="form-select border-0 shadow">
+						<option disabled selected>Select Role</option>
+					</select>
+					<label asp-for="ApplicationUser.Role" class="ms-2 "></label>
+
+					<span asp-validation-for="ApplicationUser.Role" class=" p-2 text-danger"></span>
+				</div>
+				@{
+					var companyVisible = "display:none;";
+				}
+				@if(Model.ApplicationUser.Role == SD.Role_User_Comp){
+					companyVisible = "display:block;";
+				}
+				<div class="form-floating py-2 col-12">
+					<select asp-for="ApplicationUser.CompanyId" style="@companyVisible" asp-items="@Model.CompanyList" class="form-select border-0 shadow" style="display:none">
+						<option disabled selected>Select Company</option>
+					</select>
+					<span asp-validation-for="ApplicationUser.CompanyId" class=" p-2 text-danger"></span>
+				</div>
+
+				<div class="row mt-3">
+					<div class="col-6 col-md-3 p-1">
+						<button type="submit"s class="btn border-1 border-secondary form-control btn-outline-primary ">Edit</button>
+					</div>
+					<div class="col-6 col-md-3 p-1">
+						<a asp-controller="User" asp-action="UserIndex" class=" btn btn-secondary border form-control border-secondary">
+							Back to List
+						</a>
+					</div>
+				</div>
+			</div>
+
+		</form>
+
+	</div>
+</div>
+
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+	<script>
+		$(document).ready(function () {
+			$('#ApplicationUser_Role').change(function () {
+				var selection = $('#ApplicationUser_Role Option:Selected').text();
+				if (selection == 'Company') {
+					$('#ApplicationUser_CompanyId').show();
+				}
+				else {
+					$('#ApplicationUser_CompanyId').hide();
+				}
+			})
+		})
+	</script>
+}

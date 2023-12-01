@@ -7,6 +7,9 @@ using Udemy.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Stripe;
 using Udemy.DataAccess.DbInitializer;
+using Udemy.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +20,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options=>options.UseSqlServe
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 
 // добавление роли в Identity
-builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+
+
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -49,6 +57,7 @@ builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddRazorPages(); // в программе есть только поддержка MVC поскольку в проэкт добавились Razor Pages необходимо добавить данную конфигурацию
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

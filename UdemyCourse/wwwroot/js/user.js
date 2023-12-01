@@ -15,7 +15,7 @@ function loadDataTable() {
             { data: 'company.name', "width": "10%" },
             { data: 'role', "width": "15%" },
             {
-                data: { id: 'id', lockoutEnd: 'lockoutEnd'},
+                data: { id: 'id', lockoutEnd: 'lockoutEnd' },
                 "render": function (data) {
                     var today = new Date().getTime();
                     var lockout = new Date(data.lockoutEnd).getTime();
@@ -29,7 +29,7 @@ function loadDataTable() {
                         </a>
 
 
-                        <a class = "btn btn-danger text-white" style = "cursor:pointer; width: 100px;">
+                        <a href = "/admin/user/permission?userId=${data.id}" class = "btn btn-danger text-white" style = "cursor:pointer; width: 150px;">
                                  <i class="bi bi-pencil-square"></i> Permisson
                         </a>
 
@@ -46,9 +46,10 @@ function loadDataTable() {
                                  <i class="bi bi-unlock-fill"></i> Unlock
                         </a>
 
-                        <a class = "btn btn-danger text-white" style = "cursor:pointer; width: 150px;">
-                                 <i class="bi bi-pencil-square"></i> Permisson
+                        <a href="/admin/user/permission?userId=${data.id}" class="btn btn-danger text-white" style="cursor:pointer; width: 150px;">
+                                    <i class="bi bi-pencil-square"></i> Permisson
                         </a>
+
 
                         </div>
                         `
@@ -77,3 +78,5 @@ function LockUnlock(id) {
         }
     })
 }
+
+
